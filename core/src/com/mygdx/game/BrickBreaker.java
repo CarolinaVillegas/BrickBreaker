@@ -3,7 +3,9 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -24,6 +26,7 @@ public class BrickBreaker extends ApplicationAdapter {
     public int dy = 10;
     float w;
     float h;
+    public BitmapFont font;
 
     @Override
     public void create() {
@@ -33,15 +36,15 @@ public class BrickBreaker extends ApplicationAdapter {
         camera.position.set(0, 0, 0);
         camera.update();
         camera.setToOrtho(false, w, h);
-
+        font = new BitmapFont();
         viewPort = new FillViewport(1280, 800, camera);
 
         bucket = new Rectangle();
         player = new Rectangle();
         player.width = 180;
         player.height = 32;
-        player.x = w/2;
-        player.y = 0 + player.height/2;
+        player.x = w / 2;
+        player.y = 0 + player.height / 2;
         bucket.width = 64;
         bucket.height = 64;
         bucket.x = w / 2 - bucket.width / 2;
@@ -53,7 +56,20 @@ public class BrickBreaker extends ApplicationAdapter {
         bola = new Texture("Bola.png");
         jugador = new Texture("Paddle.png");
 
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/ostrich-sans/ostrich-regular.ttf"));
+        font = createFont(generator, 40);
+        generator.dispose();
     }
+
+    private BitmapFont createFont(FreeTypeFontGenerator generator, float dp) {
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        int fontSize = (int) (dp * Gdx.graphics.getDensity());
+        parameter.size = fontSize;
+
+        return generator.generateFont(parameter);
+    }
+
 
     @Override
     public void render() {
@@ -65,20 +81,22 @@ public class BrickBreaker extends ApplicationAdapter {
         batch.draw(jugador, player.x, player.y, player.width, player.height);
         moveBall();
 
+        font.draw(batch, "Coord: X = "+(int)bucket.x+" Y = "+(int)bucket.y+" \n"+dx+""+dy, 0, h-40);
+
         batch.end();
         //Acá se detecta el toque de la pantalla
         //Oto comentario
-        if(Gdx.input.isTouched()) {
+        if (Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
-            if(touchPos.x > w/2){
+            if (touchPos.x > w / 2) {
                 player.x += 10;
-            } else{
+            } else {
                 player.x -= 10;
             }
         }
-        if(player.overlaps(bucket)){
+        if (player.overlaps(bucket)) {
             dy = -dy;
         }
 
@@ -90,6 +108,7 @@ public class BrickBreaker extends ApplicationAdapter {
         batch.dispose();
         bola.dispose();
         jugador.dispose();
+        font.dispose();
     }
 
     public void moveBall() {
