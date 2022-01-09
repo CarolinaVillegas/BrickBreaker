@@ -67,6 +67,7 @@ public class BrickBreaker extends ApplicationAdapter {
 
         batch.end();
         //Acá se detecta el toque de la pantalla
+        //Oto comentario
         if(Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
