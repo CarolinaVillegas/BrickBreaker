@@ -66,7 +66,7 @@ public class BrickBreaker extends ApplicationAdapter {
         moveBall();
 
         batch.end();
-
+        //Acá se detecta el toque de la pantalla
         if(Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -77,7 +77,6 @@ public class BrickBreaker extends ApplicationAdapter {
                 player.x -= 10;
             }
         }
-
         if(player.overlaps(bucket)){
             dy = -dy;
         }
