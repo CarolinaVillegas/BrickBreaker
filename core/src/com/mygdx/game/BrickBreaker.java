@@ -16,11 +16,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class BrickBreaker extends ApplicationAdapter {
     SpriteBatch batch;
     Viewport viewPort;
-
-    Texture bola;
+//TODO: cambiar nombres de variables dif visual-logico
+    //pelotitaVisual-pelotitaLogica
+    Texture bola;//imagen
     Texture jugador;
     private OrthographicCamera camera;
-    private Rectangle bucket;
+    private Rectangle pelotita;
     private Rectangle player;
     public int dx = 10;
     public int dy = 10;
@@ -39,18 +40,18 @@ public class BrickBreaker extends ApplicationAdapter {
         font = new BitmapFont();
         viewPort = new FillViewport(1280, 800, camera);
 
-        bucket = new Rectangle();
+        pelotita = new Rectangle(); //logica
         player = new Rectangle();
         player.width = 180;
         player.height = 32;
         player.x = w / 2;
         player.y = 0 + player.height / 2;
-        bucket.width = 64;
-        bucket.height = 64;
-        bucket.x = w / 2 - bucket.width / 2;
-        bucket.y = h / 2;
+        pelotita.width = 64;
+        pelotita.height = 64;
+        pelotita.x = w / 2 - pelotita.width / 2;
+        pelotita.y = h / 2;
 
-        batch = new SpriteBatch();
+        batch = new SpriteBatch();//coleccion de recursos que van a ser dibujados, conecta logica con visual
 
 
         bola = new Texture("Bola.png");
@@ -72,18 +73,21 @@ public class BrickBreaker extends ApplicationAdapter {
 
 
     @Override
+    //render dibuja
     public void render() {
         ScreenUtils.clear(0, 0, 0.2f, 1);
         camera.update();
         batch.setProjectionMatrix(camera.combined);
+        //empieza dibujo
         batch.begin();
-        batch.draw(bola, bucket.x, bucket.y);
+        batch.draw(bola, pelotita.x, pelotita.y);
         batch.draw(jugador, player.x, player.y, player.width, player.height);
         moveBall();
 
-        font.draw(batch, "Coord: X = "+(int)bucket.x+" Y = "+(int)bucket.y+" \n"+dx+""+dy, 0, h-40);
+        font.draw(batch, "Coord: X = "+(int)pelotita.x+" Y = "+(int)pelotita.y+" \n"+dx+""+dy, 0, h-40);
 
-        batch.end();
+        batch.end();//terminar dibujo
+
         //Acá se detecta el toque de la pantalla
         //Oto comentario
         if (Gdx.input.isTouched()) {
@@ -96,7 +100,7 @@ public class BrickBreaker extends ApplicationAdapter {
                 player.x -= 10;
             }
         }
-        if (player.overlaps(bucket)) {
+        if (player.overlaps(pelotita)) {
             dy = -dy;
         }
 
@@ -115,22 +119,22 @@ public class BrickBreaker extends ApplicationAdapter {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
         int bounds = 64;
-        bucket.x = bucket.x + dx;
-        bucket.y = bucket.y + dy;
+        pelotita.x = pelotita.x + dx; //lo visual se va actualizando con la logica
+        pelotita.y = pelotita.y + dy;
 
-        if (bucket.x + bounds >= w) {
+        if (pelotita.x + bounds >= w) {
             dx = -dx;
-            bucket.x = w - bounds;
-        } else if (bucket.x <= 0) {
+            pelotita.x = w - bounds;
+        } else if (pelotita.x <= 0) {
             dx = -dx;
-            bucket.x = 0;
+            pelotita.x = 0;
         }
-        if (bucket.y + bounds >= h) {
+        if (pelotita.y + bounds >= h) {
             dy = -dy;
-            bucket.y = h - bounds;
-        } else if (bucket.y <= 0) {
+            pelotita.y = h - bounds;
+        } else if (pelotita.y <= 0) {
             dy = -dy;
-            bucket.y = 0;
+            pelotita.y = 0;
         }
     }
 }
