@@ -1,0 +1,10 @@
+com/example/brickbreakerapp/MainActivity.java
+ com.example.brickbreakerapp.MainActivity
+com/example/brickbreakerapp/BuildConfig.java
+ com.example.brickbreakerapp.BuildConfig
+com/example/brickbreakerapp/Registrar.java
+ com.example.brickbreakerapp.Registrar
+com/example/brickbreakerapp/Editar.java
+ com.example.brickbreakerapp.Editar
+com/example/brickbreakerapp/Mostrar.java
+ com.example.brickbreakerapp.Mostrar

@@ -13,6 +13,9 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useAccelerometer = false;
 		config.useCompass = false;
+		//TODO: completar con el login antes de initialize BrickBreaker
+		//espacio para login
+		//idem
 		initialize(new BrickBreaker(), config);
 	}
 }
